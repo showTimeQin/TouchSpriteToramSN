@@ -1,6 +1,6 @@
 local count_SN = 0
 local count_delete = -1
-local out_time = 5*60*2
+local out_time = 5*60*2	 -- 5分钟超时时间
 
 function clearBlackboard()
 	local count = 0
@@ -41,24 +41,20 @@ function sell(thing, cost)
 	mSleep(3000)
 	local count = 0
 	while (count~=2) do
-		toast("0", 0.3)
 		x,y = findMultiColorInRegionFuzzy(0x1b84ff, "6|29|0x1b84ff", 90, 446,  148, 656,  707)
 		if x ~= -1 then
-			toast("1", 0.3)
 			tap(x, y)
 			mSleep(2000)
 			tap(593,  216)
 			mSleep(2000)
 			local i = 0
 			while i<=3 do
-				toast("1.1", 0.3)
 				if(thing == "dm") then
 					x1, y1 = findMultiColorInRegionFuzzy(0x8f918f, "-36|26|0x3b3d3f,-13|44| 0x6e7171,11|26|0x8f938d", 90, 729, 92, 1239,  705); 
 				elseif thing == "fl" then
 					x1, y1 = findMultiColorInRegionFuzzy(0xd688db, "13|1|0x820283,8|-11|0x756658,5|-37|0x52514e", 90, 729, 92, 1239,  705); 
 				end
 				if x1 ~= -1 then
-					toast("2", 0.3)
 					tap(x1, y1)	--	点击物品
 					mSleep(2000)
 					tap(225,  264)	-- 选择
@@ -85,7 +81,6 @@ function sell(thing, cost)
 					mSleep(2000)
 					break
 				else
-					toast("2.1", 0.3)
 					i = i + 1
 					tap(654,  589)
 					mSleep(2000)
@@ -99,7 +94,6 @@ function sell(thing, cost)
 				return
 			end
 		else
-			toast("3", 0.3)
 			touchDown(391, 629)
 			for i=629,178, -1 do
 				touchMove(391, i)
@@ -140,7 +134,7 @@ function JRW(count_JRW)
 end
 
 function goToBlackboard()
-	moveToDN(2)
+	moveToDN(3)
 	mSleep(5000)
 	tap(1092,  670) -- 下一步
 	mSleep(2000)
@@ -244,29 +238,105 @@ function deleteWQ()
 	end
 end
 
-function arrived()
+function deleteALL()
+	for i=1, 3 do
+		local pointQT = {}
+		local pointQT1 = {}
+		local pointJ = {}
+		local pointJ1 = {}
+		local pointFZ = {}
+		local pointFZ1 = {}
+		local pointJS = {};
+		local pointHD1 = {};
+		pointJS = findMultiColorInRegionFuzzyExt(0x8f918f, "-36|26|0x3b3d3f,-13|44| 0x6e7171,11|26|0x8f938d", 100, 729, 92, 1239,  705); 
+		pointQT = findMultiColorInRegionFuzzyExt(0x4c3526, "2|27|0xaf837e,27|23| 0xdab26c,44|-3|0x534a34", 100, 729,   92, 1239,  705);
+		pointQT1 = findMultiColorInRegionFuzzyExt(0x50463b, "8|30|0x583714,40|30| 0x554032,19|10|0xb18481", 100, 729,   92, 1239,  705);
+		pointJ = findMultiColorInRegionFuzzyExt(0x767677, "39|0|0x514732,17|31| 0x8e6ca9,-18|29|0x3d3626", 100, 729,   92, 1239,  705); 
+		pointJ1 = findMultiColorInRegionFuzzyExt(0x717172, "17|24|0xe0d1e1,64|11| 0x342616,28|44|0x747473", 100, 729,   92, 1239,  705); 
+		pointFZ = findMultiColorInRegionFuzzyExt(0xaf96b6, "-13|22|0x786159,0|42|0x967b9c,29|34|0xa68ab2", 97, 729,   92, 1239,  705);
+		pointHD1 = findMultiColorInRegionFuzzyExt( 0xd4282a, "14|-11|0x99030c,3|13|0xc82629,20|12|0xf94140,39|5|0xe6091a", 100, 729, 92, 1239,  705);
+		--pointFZ1 = findMultiColorInRegionFuzzyExt(0xac93b3, "58|8|0x1a1408,24|35|0x63483f,68|26|0x3e2f1a", 97, 729,   92, 1239,  705);
+		
+		if #pointJS ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointJS do
+				nLog(pointJS[var].x..":"..pointJS[var].y)
+				tap(pointJS[var].x, pointJS[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointQT ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointQT do
+				nLog("拳套位置："..pointQT[var].x..":"..pointQT[var].y)
+				tap(pointQT[var].x, pointQT[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointQT1 ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointQT1 do
+				nLog("拳套单孔位置："..pointQT1[var].x..":"..pointQT1[var].y)
+				tap(pointQT1[var].x, pointQT1[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointJ ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointJ do
+				nLog("拔刀位置："..pointJ[var].x..":"..pointJ[var].y)
+				tap(pointJ[var].x, pointJ[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointJ1 ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointJ1 do
+				nLog("拔刀单孔位置："..pointJ1[var].x..":"..pointJ1[var].y)
+				tap(pointJ1[var].x, pointJ1[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointFZ ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointFZ do
+				nLog("法杖位置："..pointFZ[var].x..":"..pointFZ[var].y)
+				tap(pointFZ[var].x, pointFZ[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+		if #pointHD1 ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+			for var = 1,#pointHD1 do
+				nLog("活动物品1位置："..pointHD1[var].x..":"..pointHD1[var].y)
+				tap(pointHD1[var].x, pointHD1[var].y)
+				count_delete = count_delete + 1
+				mSleep(500)
+			end
+		end
+--		if #pointFZ1 ~= 0 then  --如返回的table不为空（至少找到一个符合条件的点）
+--			for var = 1,#pointFZ1 do
+--				nLog("法杖单孔位置："..pointFZ1[var].x..":"..pointFZ1[var].y)
+--				tap(pointFZ1[var].x, pointFZ1[var].y)
+--				count_delete = count_delete + 1
+--				mSleep(500)
+--			end
+--		end
+		touch(659,  549, 0x1b84ff, 95)
+		mSleep(1000)
+		nLog("抓取成功")
+	end
+end
+
+function arrived(admin)
 	findColorStop(822,  600, 0x1a84fe, 90)
 	local x, y, x1, y1, x2, y2, x3, y3, x4, y4 = -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 	x,y = findMultiColorInRegionFuzzy( 0x1cb6e3, "35|-1|0x1dbce5,5|26|0x0934a9,35|31|0x0724a1,18|14|0xcfcfcf", 90, 704,  262, 766,  325)
 	if x==-1 then return "队员" end-- 不是队长
 	local timer = 0
-	while timer < out_time do
+	while (timer < out_time and admin == 1) or (admin == 2) do
 		x2,y2 = findMultiColorInRegionFuzzy( 0x2a1b0f, "17|2|0x2b1b0f,0|31|0x2b1b0f,16|33|0x2b1b0f", 90, 158,  241, 227,  293)
 		x3,y3 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|0|0x2b1b0f,-1|32|0x28190e,15|30|0x2b1b0f", 90, 159,  337, 227,  392)
 		x4,y4 = findMultiColorInRegionFuzzy( 0x2a1b0f, "14|-1|0x26180d,-4|32|0x2b1b0f,20|31|0x291a0e", 90, 160,  441, 224,  493)
-		if (num == "0" and x2==-1) then toast("2号没到", 0.3) end
-		if (num == "1" and x2==-1) then 
-			toast("2号没到", 0.3)
-		elseif (num == "1" and x3==-1) then
-			toast("3号没到", 0.3)
-		end
-		if (num == "2" and x2==-1) then 
-			toast("2号没到", 0.3)
-		elseif (num == "2" and x3==-1) then
-			toast("3号没到", 0.3)
-		elseif (num == "2" and x4==-1) then
-			toast("4号没到", 0.3)
-		end
 		if (num == "0" and x2~=-1) or 
 			(num == "1" and x2~=-1 and x3~=-1) or 
 			(num == "2" and x2~=-1 and x3~=-1 and x4~=-1) then
@@ -274,7 +344,9 @@ function arrived()
 			return "到齐"
 		end 
 		mSleep(500)
-		timer = timer + 1
+		if(admin == 1) then
+			timer = timer + 1;
+		end
 	end
 	return "超时"
 end
@@ -329,13 +401,13 @@ function goToCityJRW(count_JRW)
 	return count_JRW
 end
 
--- base 为1表示不组队
 -- num表示组队人数，0为2人，1为3人，2为4人
 -- position表示传送点位置，0为第一个，1为第二个，2为第三个
 -- time 为休息时间
 -- version 为0时为正常版本， 为1时为bug版
 -- 计数君，计算刷牛次数
-function team(base, num, position, time, version)
+-- admin 为1不删金属，为2全删
+function team(num, position, time, version, admin, cattleStar)
 	-- 确认是否在刷牛的地图
 	local map = false -- 确认是否在本地图的标示
 	local bag = false -- 识别背包是否满了的标志
@@ -395,53 +467,56 @@ function team(base, num, position, time, version)
 		moveToN(2)
 		
 		-- 识别人是否到齐
-		if base == "1" then
-			local arrive = arrived()
-			if arrive == "队员" then
-				nLog("队员准备好了，开始战斗")
-				touch(822,  600, 0x1b84ff, 95)
-				local timer = 0
-				local x1, y1, x2, y2, x3, y3, x4, y4 = -1, -1, -1, -1, -1, -1, -1, -1
-				while (timer < out_time) do
-					x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|0|0x2b1b0f,0|30|0x2b1b0f,16|30|0x2b1b0f", 90, 162,  135, 225,  196)
-					x2,y2 = findMultiColorInRegionFuzzy( 0x2a1b0f, "17|2|0x2b1b0f,0|31|0x2b1b0f,16|33|0x2b1b0f", 90, 158,  241, 227,  293)
-					x3,y3 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|0|0x2b1b0f,-1|32|0x28190e,15|30|0x2b1b0f", 90, 159,  337, 227,  392)
-					x4,y4 = findMultiColorInRegionFuzzy( 0x2a1b0f, "14|-1|0x26180d,-4|32|0x2b1b0f,20|31|0x291a0e", 90, 160,  441, 224,  493)
-					if (num == "0" and x~=-1 and x2~=-1) or 
-						(num == "1" and x~=-1 and x2~=-1 and x3~=-1) or 
-						(num == "2" and x~=-1 and x2~=-1 and x3~=-1 and x4~=-1) then
-						nLog("到齐")
-						break
-					end
-					mSleep(500)
-					timer = timer + 1
+		local arrive = arrived(admin)
+		if arrive == "队员" then
+			nLog("队员准备好了，开始战斗")
+			touch(822,  600, 0x1b84ff, 95)
+			local timer = 0
+			local x1, y1, x2, y2, x3, y3, x4, y4 = -1, -1, -1, -1, -1, -1, -1, -1
+			while (timer < out_time) do
+				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|0|0x2b1b0f,0|30|0x2b1b0f,16|30|0x2b1b0f", 90, 162,  135, 225,  196)
+				x2,y2 = findMultiColorInRegionFuzzy( 0x2a1b0f, "17|2|0x2b1b0f,0|31|0x2b1b0f,16|33|0x2b1b0f", 90, 158,  241, 227,  293)
+				x3,y3 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|0|0x2b1b0f,-1|32|0x28190e,15|30|0x2b1b0f", 90, 159,  337, 227,  392)
+				x4,y4 = findMultiColorInRegionFuzzy( 0x2a1b0f, "14|-1|0x26180d,-4|32|0x2b1b0f,20|31|0x291a0e", 90, 160,  441, 224,  493)
+				if (num == "0" and x~=-1 and x2~=-1) or 
+					(num == "1" and x~=-1 and x2~=-1 and x3~=-1) or 
+					(num == "2" and x~=-1 and x2~=-1 and x3~=-1 and x4~=-1) then
+					nLog("到齐")
+					break
 				end
-				if timer == out_time then
-					mSleep(1000)
-					tap(52,   68) --点击返回
-					mSleep(1000)
-					tap(52,   68) --点击返回
-					mSleep(1000)
-					return 2
-				end
+				mSleep(500)
+				timer = timer + 1
 			end
-			if arrive == "超时" then
+			if timer == out_time then
+				mSleep(1000)
+				tap(52,   68) --点击返回
 				mSleep(1000)
 				tap(52,   68) --点击返回
 				mSleep(1000)
 				return 2
 			end
-			if arrive == "到齐" then
-				nLog("准备好了，开始战斗")
-				mSleep(3000)
-				touch(822,  600, 0x1b84ff, 95)
-			end
 		end
-		
-		if base == "0" then
+		if arrive == "超时" then
+			mSleep(1000)
+			tap(52,   68) --点击返回
+			mSleep(1000)
+			return 2
+		end
+		if arrive == "到齐" then
 			nLog("准备好了，开始战斗")
+			if(cattleStar ~= -1) then
+				toast((cattleStar+1).."星牛",0.5);
+				for i=1,cattleStar do
+					tap(1161,  288);
+					mSleep(1000);
+				end
+				cattleStar = -1;
+			end
+			mSleep(3000)
 			touch(822,  600, 0x1b84ff, 95)
 		end
+		
+		
 		falg = false
 		mSleep(2000)
 		findNotColorStart(822,  600, 0x1b84ff, 95) -- 检查准备好了战斗按钮
@@ -498,12 +573,6 @@ function team(base, num, position, time, version)
 				tap(791,  335)
 				tap(646,  335)
 				tap(508,  341)
-				if base == "0" and not isColor(1225, 58, 0xd0e1ec, 95) then
-					count_SN = count_SN + 1
-					toast("战斗结束， 已刷牛次数："..count_SN,0.5)
-					nLog("战斗结束, 已刷牛次数："..count_SN)
-					break
-				end
 				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|-1|0x2b1b0f,2|32|0x2b1b0f,20|35|0x150d07", 90, 208,  448, 267,  503)
 				x2,y2 = findMultiColorInRegionFuzzy( 0x1ebee6, "27|0|0x1ebee6,28|29|0x0726a2,-4|29|0x0726a2", 90, 689,  221, 746,  277)
 				if x1~=-1 or x2~=-1 then
@@ -519,12 +588,21 @@ function team(base, num, position, time, version)
 				tap(791,  335)
 				tap(646,  335)
 				tap(508,  341)
-				if base == "0" and not isColor(1225, 58, 0xd0e1ec, 95) then
+				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|-1|0x2b1b0f,2|32|0x2b1b0f,20|35|0x150d07", 90, 208,  448, 267,  503)
+				x2,y2 = findMultiColorInRegionFuzzy( 0x1ebee6, "27|0|0x1ebee6,28|29|0x0726a2,-4|29|0x0726a2", 90, 689,  221, 746,  277)
+				if x1~=-1 or x2~=-1 then
 					count_SN = count_SN + 1
 					toast("战斗结束， 已刷牛次数："..count_SN,0.5)
 					nLog("战斗结束， 已刷牛次数："..count_SN)
 					break
 				end
+				-- 破盾
+				tap(715,  182)
+				tap(525,  183)
+				tap(620,  183)
+				tap(791,  335)
+				tap(646,  335)
+				tap(508,  341)
 				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|-1|0x2b1b0f,2|32|0x2b1b0f,20|35|0x150d07", 90, 208,  448, 267,  503)
 				x2,y2 = findMultiColorInRegionFuzzy( 0x1ebee6, "27|0|0x1ebee6,28|29|0x0726a2,-4|29|0x0726a2", 90, 689,  221, 746,  277)
 				if x1~=-1 or x2~=-1 then
@@ -537,47 +615,42 @@ function team(base, num, position, time, version)
 		end
 		
 		x1, y1, x2, y2 = -1, -1, -1, -1
-		if base == "1" then
-			local timer = 0
-			while x1==-1 and x2==-1 do
-				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|-1|0x2b1b0f,2|32|0x2b1b0f,20|35|0x150d07", 90, 208,  448, 267,  503)
-				x2,y2 = findMultiColorInRegionFuzzy( 0x1ebee6, "27|0|0x1ebee6,28|29|0x0726a2,-4|29|0x0726a2", 90, 689,  221, 746,  277)
-				mSleep(500)
-				timer = timer + 1
-				toast("timer:"..timer,0.3)
-				if timer == 36 then
-					closeApp("com.xiaoyou.ToramOnline")
-					mSleep(3000)
-					runApp("com.xiaoyou.ToramOnline")
-					mSleep(3000)
-					touch(764,  569, 0x1b84ff, 95)
-					mSleep(3000)
-					tap(770,  317)
-					mSleep(3000)
-					touch(727,  668, 0x1a84fe, 95)
-					mSleep(3000)
-					return 1
+		local timer = 0
+		while not isColor(907, 48, 0xc00900, 85) do
+			mSleep(2000)
+			tap(63, 64);
+			timer = timer + 1
+			toast("timer:"..timer,0.3)
+			if timer == 36 then
+				::s1:: 
+				closeApp("com.xiaoyou.ToramOnline")
+				mSleep(5000)
+				if runApp("com.xiaoyou.ToramOnline") ~= 0 then
+					mSleep(5000)
+					goto s1;
 				end
-			end
-			while true do
+				mSleep(2000)
+				::s2:: 
+				touch(764,  569, 0x1b84ff, 95)
 				mSleep(3000)
-				tap(63, 64)
-				mSleep(50)
-				tap(63, 64) -- 双击
+				if isColor(764,  569, 0x1b84ff, 95) then
+					goto s2;
+				end
+				tap(770,  317)
 				mSleep(1000)
-				toast("点击返回", 0.5)
-				mSleep(3000)
 				
-				x1,y1 = findMultiColorInRegionFuzzy( 0x2b1b0f, "16|-1|0x2b1b0f,2|32|0x2b1b0f,20|35|0x150d07", 90, 208,  448, 267,  503)
-				x2,y2 = findMultiColorInRegionFuzzy( 0x1ebee6, "27|0|0x1ebee6,28|29|0x0726a2,-4|29|0x0726a2", 90, 689,  221, 746,  277)
-				if x1==-1 or x2==-1 then
-					break
+				while not isColor(1176,  283, 0x68c99d, 85) do
+					tap(723,  665)
+					mSleep(1000)
 				end
+				return 1
 			end
 		end
-		findMutiColorStop(0x1eb3dd, "35|0|0x1eb3dd,17|17|0x5d3c11,-13|32|0x3585da", 90, 0, 0, 103,  112)
+		
+		--findMutiColorStop(0x1eb3dd, "35|0|0x1eb3dd,17|17|0x5d3c11,-13|32|0x3585da", 90, 0, 0, 103,  112)
 		toast("看见选单，重新回到地图",0.5)
 		nLog("看见选单，重新回到地图")
+		mSleep(1000);
 		tap(1175,  176)
 		mSleep(time)
 		tap(1049,  253)
@@ -594,8 +667,12 @@ function team(base, num, position, time, version)
 			findColorStop(296,  222, 0x35a9b7, 95)
 			touch(645,  119, 0x269e5e, 95) -- 多选
 			mSleep(500)
-			deleteJS()
-			deleteWQ()
+			if(admin == 1) then
+				deleteJS()
+				deleteWQ()
+			else
+				deleteALL();
+			end
 			touch(309,  193, 0xcdcbcd, 95)
 			touch(791,  601, 0x1b84ff, 95) -- 删除确认
 			mSleep(1000)
@@ -606,9 +683,18 @@ function team(base, num, position, time, version)
 		touch(1223,   65, 0xeebb6f, 95) -- 关闭
 		
 		if count_delete~=-1 and count_delete <= 3 then
-			count_delete = -1
-			nLog("回城交任务")
-			return 2
+			if(admin == 1) then
+				count_delete = -1
+				nLog("回城交任务")
+				return 2
+			else
+				closeApp("com.xiaoyou.ToramOnline");
+				mSleep(5000);
+				closeApp("com.xiaoyou.ToramOnline");
+				mSleep(5000);
+				lua_exit();     --退出脚本
+				mSleep(10)      --lua 的机制是调用此函数之后的下一行结束，如果不希望出现此情况可以在调用函数之后加入一行无意义代码。
+			end
 		end
 		
 		count_delete = -1
@@ -618,6 +704,32 @@ end
 
 function showCount(count_JRW)
 	toast("刷牛次数：".. count_SN.."\n\n得到防裂瓶数:"..count_JRW)
+end
+
+function restart(position)
+	-- 重启
+	::r1:: 
+	closeApp("com.xiaoyou.ToramOnline")
+	mSleep(5000)
+	if runApp("com.xiaoyou.ToramOnline") ~= 0 then
+		mSleep(5000)
+		goto r1;
+	end
+	mSleep(2000)
+	::r2:: 
+	touch(764,  569, 0x1b84ff, 95)
+	mSleep(3000)
+	if isColor(764,  569, 0x1b84ff, 95) then
+		goto r2;
+	end
+	tap(770,  317)
+	mSleep(1000)
+	
+	while not isColor(53,   54, 0x837b70, 95) do
+		tap(723,  665)
+		mSleep(1000)
+	end
+	mSleep(2000)
 end
 
 
